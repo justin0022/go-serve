@@ -20,7 +20,6 @@ func main() {
 	fs := http.FileServer(http.Dir("static"))
 	router.Handle("/", fs)
 	router.HandleFunc("/github/{username}", GithubHandler)
-
 	log.Println("Listening on port 8080")
 	http.ListenAndServe(":8080", router)
 }
