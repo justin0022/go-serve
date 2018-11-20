@@ -8,12 +8,19 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func getUser(username string) string {
+	response, _ := http.Get("https://api.github.com/users/" + username)
+	responseData, _ := ioutil.ReadAll(response.Body)
+	userData := string(responseData)
+	return userData
+}
+
 func GithubHandler(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
+	username := params["username"]
 	w.WriteHeader(http.StatusOK)
-	response, _ := http.Get("https://api.github.com/users/" + params["username"])
-	responseData, _ := ioutil.ReadAll(response.Body)
-	log.Println(string(responseData))
+	userData := getUser(username)
+	log.Println(userData)
 }
 
 func main() {
