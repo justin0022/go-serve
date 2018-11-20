@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -12,7 +12,8 @@ func GithubHandler(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	w.WriteHeader(http.StatusOK)
 	response, _ := http.Get("https://api.github.com/users/" + params["username"])
-	fmt.Println(response)
+	responseData, _ := ioutil.ReadAll(response.Body)
+	log.Println(string(responseData))
 }
 
 func main() {
